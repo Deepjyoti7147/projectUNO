@@ -9,6 +9,10 @@ from flask_cors import CORS
 
 from game import Unogame
 
+
+import newrelic.agent
+newrelic.agent.initialize()
+
 app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")

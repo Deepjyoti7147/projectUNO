@@ -40,7 +40,11 @@ jobs:
             cd /home/ubuntu/projectUNO
             git pull origin main
 
-            # Build and run new Docker container
+            # Build and run new Docker container with New Relic
             docker build -t uno .
-            docker run -d --name uno-container -p 8000:8000 uno
+            docker run -d --name uno-container \
+              -p 8000:8000 \
+              -e NEW_RELIC_LICENSE_KEY=${{ secrets.NEW_RELIC_LICENSE_KEY }} \
+              -e NEW_RELIC_APP_NAME="Your Flask App" \
+              uno
           EOF

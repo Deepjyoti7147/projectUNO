@@ -7,13 +7,17 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . .
 
-#Installing dependencies 
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install New Relic Python agent
+RUN pip install newrelic
+
+# Expose port 8000
 EXPOSE 8000
 
-# Running the app.py
-CMD ["python3", "app.py"]
+# Set environment variables for New Relic
+ENV NEW_RELIC_ENVIRONMENT=production
 
-
-#Need to find a way to create a venv using Docker
+# Run the application with New Relic
+CMD ["newrelic-admin", "run-program", "python3", "app.py"]
