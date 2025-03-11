@@ -30,11 +30,13 @@ jobs:
               sudo usermod -aG docker \$USER
             fi
 
-            # Free up space: Remove all containers, images, and volumes
-            docker stop \$(docker ps -aq) || true
-            docker rm \$(docker ps -aq) || true
-            docker rmi \$(docker images -q) --force || true
-            docker system prune -a --volumes -f || true
+
+            # Stop and remove the previous container of the app
+            docker stop uno-container || true
+            docker rm uno-container || true
+
+            # Remove the previous image of the app
+            docker rmi uno || true
 
             # Pull latest code
             cd /home/ubuntu/projectUNO
